@@ -114,6 +114,7 @@ function fncGetList(currentPage) {
 			</c:if>
 			<c:if test = "${purchase.tranCode=='0  '}">
 				구매완료
+				<a href="/updatePurchaseView.do?tranNo=${purchase.tranNo}">배송정보수정</a>
 			</c:if>
 			<c:if test = "${purchase.tranCode=='1  '}">
 				배송중
@@ -123,11 +124,14 @@ function fncGetList(currentPage) {
 			</c:if></td>
 		<td></td>
 		<td align="left">
-		<c:if test = "${purchase.tranCode=='1  '||purchase.tranCode=='2  '}">
+		<c:if test = "${purchase.tranCode=='1  '}">
 			배송중 (정보수정불가)
 		</c:if>
-		<c:if test = "${purchase.tranCode=='0  '||purchase.tranCode==null}">
-		<a href="/updatePurchaseView.do?tranNo=${purchase.tranNo }">배송정보수정</a>
+		<c:if test = "${purchase.tranCode=='2  '}">
+			배송완료 (정보수정불가)
+		</c:if>
+		<c:if test = "${purchase.tranCode=='1  '}">
+		<a href="/updateTranCode.do?tranNo=${purchase.tranNo}&tranCode=${purchase.tranCode}">물건도착</a>		
 		</c:if>
 		</td>
 	</tr>

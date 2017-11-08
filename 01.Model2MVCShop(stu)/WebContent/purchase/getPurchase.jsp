@@ -79,11 +79,11 @@
 			%>현금구매
 			<%}else{ %>
 			신용구매<%} %>--%>
-		<c:if test="${ purchaseVO.paymentOption=='1'}">
+		<c:if test="${ purchaseVO.paymentOption.trim()=='1'}">
 			현금구매 
 		</c:if>
-		<c:if test="${ purchaseVO.paymentOption=='2'}">
-			현금구매 
+		<c:if test="${ purchaseVO.paymentOption.trim()=='2'}">
+			신용구매 
 		</c:if>	
 			
 		</td>

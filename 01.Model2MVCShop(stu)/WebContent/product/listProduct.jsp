@@ -177,8 +177,13 @@ function fncGetList(currentPage) {
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
 	<tr>
-		<td colspan="11" >
-		전체 ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage}  페이지</td>
+		<td colspan="3" >
+		전체 ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage}  페이지 		
+		</td>
+		<td colspan="8" align="right">
+		높은 가격순▲  
+		낮은 가격순▼
+		</td>
 	</tr>
 	<tr>
 		<td class="ct_list_b" width="100">No</td>
@@ -224,11 +229,16 @@ function fncGetList(currentPage) {
 		<tr class="ct_list_pop">
 			<td align="center">${ i }</td>
 			<td></td>
-				<c:if test = "${param.menu=='manage'}">
-				<td align="left"><a href="/updateProductView.do?prodNo=${product.prodNo}">${product.prodName}</a></td>
+				<c:if test = "${param.menu=='manage'}">					
+				<td align="left"><a href="/updateProductView.do?prodNo=${product.prodNo}">${product.prodName}</a></td>		
 				</c:if>
 				<c:if test = "${param.menu=='search'}">
+					<c:if test = "${product.proTranCode==null}">
 				<td align="left"><a href="/getProduct.do?prodNo=${product.prodNo}">${product.prodName}</a></td>
+				</c:if>
+				<c:if test = "${product.proTranCode=='0  '||product.proTranCode=='1  '||product.proTranCode=='2  '}">
+				<td align="left">${product.prodName}</a></td>
+				</c:if>
 				</c:if>
 			<td></td>
 			<td align="left">${product.price}</td>

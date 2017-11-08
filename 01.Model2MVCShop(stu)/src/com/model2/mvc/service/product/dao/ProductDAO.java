@@ -72,10 +72,13 @@ public class ProductDAO {
 	}
 	
 	public Map<String,Object> getProductList(Search search) throws Exception{
+		
 		Map<String , Object>  map = new HashMap<String, Object>();
+		
 		Connection con = DBUtil.getConnection();
 		
 		String sql = "select p.*, t.TRAN_STATUS_CODE from PRODUCT p, transaction t WHERE p.prod_no=t.prod_no(+) ";
+		
 		if (search.getSearchCondition() != null) {
 			if (search.getSearchCondition().equals("0")) {
 				sql += " and p.PROD_NO Like '%" + search.getSearchKeyword()+"%"
@@ -83,6 +86,9 @@ public class ProductDAO {
 			} else if (search.getSearchCondition().equals("1")) {
 				sql += " and p.PROD_NAME Like '%" + search.getSearchKeyword()+"%"
 						+ "'";
+			}else if (search.getSearchCondition().equals("2")) {
+				String keyword = (search.getSearchKeyword()).replace("~", " and ");
+				sql += " and p.PRICE BETWEEN" + " "+keyword;
 			}
 		}
 		sql += " order by p.PROD_NO";
@@ -97,9 +103,6 @@ public class ProductDAO {
 		sql = makeCurrentPageSql(sql, search);
 		PreparedStatement pStmt = con.prepareStatement(sql);
 		ResultSet rs = pStmt.executeQuery();
-		
-		//String proTranCode = ;
-		//System.out.println(search);
 
 		List<Product> list = new ArrayList<Product>();
 		
@@ -127,7 +130,10 @@ public class ProductDAO {
 
 		return map;
 	}
-
+	public Map<String,Object> getProductList2(Search search) throws Exception{
+		
+		return null;
+	}
 	public void updateProduct(Product product) throws Exception {
 		
 		Connection con = DBUtil.getConnection();

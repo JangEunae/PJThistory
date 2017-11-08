@@ -54,7 +54,7 @@ function fncAddPurchase() {
 	</tr>
 </table>
 
-<input type="hidden" name="prodNo" value="${productVO.prodNo} " />
+<input type="hidden" name="prodNo" value="${productVO.prodNo}" />
 
 <table width="600" border="0" cellspacing="0" cellpadding="0"	align="center" style="margin-top: 13px;">
 	<tr>
@@ -120,7 +120,7 @@ function fncAddPurchase() {
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
 	</tr>
-	<input type="hidden" name="userId" value="${userVO.userId} " />
+	<input type="hidden" name="userId" value="${userVO.userId}" />
 	<tr>
 		<td width="104" class="ct_write">
 			구매자아이디 <img 	src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>

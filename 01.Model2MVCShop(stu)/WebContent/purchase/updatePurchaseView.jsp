@@ -66,12 +66,12 @@
 							maxLength="20">
 							
 				<%--<%if((purchase.getPaymentOption()).equals(1) ) {%>--%>
-				<c:if test="${ purchaseVO.paymentOption=='1'}">
+				<c:if test="${ purchaseVO.paymentOption.trim()=='1'}">
 				<option value="1" selected="selected">현금구매</option>
 				<option value="2">신용구매</option>
 				</c:if>
 				<%--<%}else {%>--%>
-				<c:if test="${ purchaseVO.paymentOption=='2'}">
+				<c:if test="${ purchaseVO.paymentOption.trim()=='2'}">
 				<option value="1" >현금구매</option>
 				<option value="2"selected="selected">신용구매</option>
 				</c:if>

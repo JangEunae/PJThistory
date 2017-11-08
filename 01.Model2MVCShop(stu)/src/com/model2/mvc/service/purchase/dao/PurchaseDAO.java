@@ -100,7 +100,7 @@ public class PurchaseDAO {
 		
 		PreparedStatement stmt = con.prepareStatement(sql);
 		stmt.setInt(1, ProdNo);
-		System.out.println(ProdNo);
+		
 		ResultSet rs = stmt.executeQuery();
 
 		Purchase purchase = null;
@@ -125,7 +125,7 @@ public class PurchaseDAO {
 			purchase.setTranCode(rs.getString("TRAN_STATUS_CODE"));
 		}
 		
-		System.out.println("´Ù¿À "+purchase);
+		
 		con.close();
 
 		return purchase;	

@@ -29,6 +29,8 @@ public class AddPurchaseAction extends Action{
 		
 		Product product = proservice.getProduct(Integer.parseInt(request.getParameter("prodNo")));
 		
+		
+		
 		purchase.setBuyer(user);
 		purchase.setPurchaseProd(product);
 		purchase.setPaymentOption(request.getParameter("paymentOption"));

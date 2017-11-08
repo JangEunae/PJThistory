@@ -28,11 +28,10 @@ public class UpdatePurchaseAction extends Action{
 		purchase.setDivyRequest(request.getParameter("receiverRequest"));
 		purchase.setDivyDate(request.getParameter("divyDate"));
 	
-		
 		service.updatePurcahse(purchase);
+		
 		request.setAttribute("purchaseVO", purchase);
 	
-		
 		return "forward:/getPurchase.do?tranNo="+tranNo;//
 		
 	}
