@@ -28,11 +28,6 @@ public class ProductServiceImpl implements ProductService {
 		return productDAO.getProductList(search);
 	}
 	
-	public Map<String, Object> getProductList2(Search search) throws Exception {
-		
-		return productDAO.getProductList2(search);
-	}
-
 	
 	public void updateProduct(Product product) throws Exception {
 		productDAO.updateProduct(product);

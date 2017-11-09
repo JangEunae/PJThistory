@@ -97,7 +97,7 @@ public class UserDAO {
 		PreparedStatement pStmt = con.prepareStatement(sql);
 		ResultSet rs = pStmt.executeQuery();
 	
-		System.out.println(search);
+		//System.out.println(search);
 
 		List<User> list = new ArrayList<User>();
 		

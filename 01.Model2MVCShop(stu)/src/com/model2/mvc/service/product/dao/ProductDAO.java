@@ -79,20 +79,32 @@ public class ProductDAO {
 		
 		String sql = "select p.*, t.TRAN_STATUS_CODE from PRODUCT p, transaction t WHERE p.prod_no=t.prod_no(+) ";
 		
+		
+		System.out.println("여긴 다오"+search.getSearchOption());
+		System.out.println("여긴 다오"+search.getSearchCondition());
+		
 		if (search.getSearchCondition() != null) {
 			if (search.getSearchCondition().equals("0")) {
-				sql += " and p.PROD_NO Like '%" + search.getSearchKeyword()+"%"
-						+ "'";
+				sql += " ";
 			} else if (search.getSearchCondition().equals("1")) {
 				sql += " and p.PROD_NAME Like '%" + search.getSearchKeyword()+"%"
 						+ "'";
 			}else if (search.getSearchCondition().equals("2")) {
 				String keyword = (search.getSearchKeyword()).replace("~", " and ");
-				sql += " and p.PRICE BETWEEN" + " "+keyword;
+				sql += " and p.PRICE BETWEEN"+" "+keyword;
 			}
 		}
-		sql += " order by p.PROD_NO";
 		
+		if(search.getSearchOption()!=null) {
+			if (search.getSearchOption().equals("0")) {
+				sql += " order by p.PRICE DESC";
+			}else if (search.getSearchOption().equals("1")) {
+				sql += " order by p.PRICE ASC";
+			}		
+		}else {
+			sql += "order by p.PROD_NO";	
+		}
+			
 		System.out.println("ProductDAO::Original SQL :: " + sql);
 		
 		//==> TotalCount GET
@@ -130,10 +142,7 @@ public class ProductDAO {
 
 		return map;
 	}
-	public Map<String,Object> getProductList2(Search search) throws Exception{
-		
-		return null;
-	}
+	
 	public void updateProduct(Product product) throws Exception {
 		
 		Connection con = DBUtil.getConnection();
@@ -152,7 +161,7 @@ public class ProductDAO {
 		con.close();
 	}
 	
-private int getTotalCount(String sql) throws Exception {
+	private int getTotalCount(String sql) throws Exception {
 		
 		sql = "SELECT COUNT(*) "+
 		          "FROM ( " +sql+ ") countTable";

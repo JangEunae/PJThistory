@@ -29,7 +29,8 @@ public class ListUserAction extends Action {
 		search.setCurrentPage(currentPage);
 		search.setSearchCondition(request.getParameter("searchCondition"));
 		search.setSearchKeyword(request.getParameter("searchKeyword"));
-		
+		System.out.println("얘는 어떻게...?"+search.getSearchCondition());
+		System.out.println("얘는 어떻게...?222"+search.getSearchKeyword());
 		// web.xml  meta-data 로 부터 상수 추출 
 		int pageSize = Integer.parseInt( getServletContext().getInitParameter("pageSize"));
 		int pageUnit  =  Integer.parseInt(getServletContext().getInitParameter("pageUnit"));

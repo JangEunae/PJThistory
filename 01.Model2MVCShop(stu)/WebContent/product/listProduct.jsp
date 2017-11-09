@@ -34,10 +34,21 @@ String searchKeyword = CommonUtil.null2str(searchVO.getSearchKeyword());
 
 <script type="text/javascript">
 
-function fncGetList(currentPage) {
+function fncGetList(currentPage,searchOption) {
 	document.getElementById("currentPage").value = currentPage;
+	document.getElementById("searchOption").value = searchOption;
    	document.detailForm.submit();		
 }
+
+<%--function fncHighPriceList(searchCondition) {
+	document.getElementById("searchOption01").value = searchCondition;
+   	document.detailForm.submit();		
+}
+
+function fncLowPriceList(searchCondition) {
+	document.getElementById("searchOption02").value = searchCondition;
+   	document.detailForm.submit();		
+}--%> 
 </script>
 </head>
 
@@ -45,7 +56,7 @@ function fncGetList(currentPage) {
 
 <div style="width:98%; margin-left:10px;">
 
-<form name="detailForm" action="/listProduct.do?menu=${param.menu}" method="post" >
+<form name="detailForm" action="/listProduct.do?menu=${param.menu}&searchOption=${search.searchOption}" method="post" >
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -100,7 +111,7 @@ function fncGetList(currentPage) {
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
 	<tr>
 	<td align="right">
-			<select name="searchCondition" class="ct_input_g" style="width:80px">
+			<select name="searchCondition" id="searchCondition" class="ct_input_g" style="width:80px">
 		<%-- <%
 		if(searchVO.getSearchCondition() != null) {
 		%>
@@ -129,12 +140,12 @@ function fncGetList(currentPage) {
 				}
 			%>--%>
 			
-			<!--  <option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>상품번호</option>-->
+			<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>전체</option>
 			<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>상품명</option>
 			<option value="2"  ${ ! empty search.searchCondition && search.searchCondition==2 ? "selected" : "" }>상품가격</option>
 			
 			</select>
-			<input type="text" name="searchKeyword" value="${! empty search.searchKeyword ? search.searchKeyword : ""}" class="ct_input_g" style="width:200px; height:19px" />
+			<input type="text" name="searchKeyword" id="searchkeyword" value="${! empty search.searchKeyword ? search.searchKeyword : ""}" class="ct_input_g" style="width:200px; height:19px" />
 		</td>
 		
 	<%--	<%
@@ -163,7 +174,7 @@ function fncGetList(currentPage) {
 						<img src="/images/ct_btnbg01.gif" width="17" height="23">
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						<a href="javascript:fncGetList('1');">검색</a>
+						<a href="javascript:fncGetList('1','${search.searchOption}');">검색</a>
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23">
@@ -178,11 +189,26 @@ function fncGetList(currentPage) {
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
 	<tr>
 		<td colspan="3" >
-		전체 ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage}  페이지 		
+		전체 ${resultPage.totalCount} 건수, 현재 ${resultPage.currentPage}  페이지 		
 		</td>
 		<td colspan="8" align="right">
-		높은 가격순▲  
-		낮은 가격순▼
+		<!--<a href="/listProduct.do?searchCondition=3">높은 가격순▲ </a>
+		<a href="/listProduct.do?searchCondition=4">낮은 가격순▼ </a>-->
+		
+		<!--<input type="hidden" name="searchCondition" value="3">
+		<a href="javascript:fncGetList('1');">높은 가격순▲ </a>
+		<input type="hidden" name="searchCondition" value="4">
+		<a href="javascript:fncGetList('1');">낮은 가격순▼ </a>
+		
+		<input type="hidden" name="searchOption01"  id="searchOption01" value = "3">
+		<a href="javascript:fncHighPriceList('3');">높은 가격순▲ </a>
+		</input>
+		<input type="hidden" name="searchOption02"  id="searchOption02" value = "4">
+		<a href="javascript:fncLowPriceList('4');">낮은 가격순▼ </a>-->
+		
+		<input type="hidden" name="searchOption" id="searchOption" >
+		<a href="/listProduct.do?menu=${param.menu}&searchOption=0">높은 가격순▲ </a>
+		<a href="/listProduct.do?menu=${param.menu}&searchOption=1">낮은 가격순▼ </a>
 		</td>
 	</tr>
 	<tr>
