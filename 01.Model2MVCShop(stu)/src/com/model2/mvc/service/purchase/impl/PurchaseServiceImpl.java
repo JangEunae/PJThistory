@@ -49,7 +49,9 @@ public class PurchaseServiceImpl implements PurchaseService{
 		purchaseDAO.updateTranCode(purchaseVO);
 	}
 
-
+	public void deleteTranCode(Purchase purchase) throws Exception{
+		purchaseDAO.deleteTranCode(purchase);
+	}
 	
 
 }

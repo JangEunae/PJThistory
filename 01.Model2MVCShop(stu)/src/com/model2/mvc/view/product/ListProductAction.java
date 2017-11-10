@@ -31,8 +31,9 @@ public class ListProductAction extends Action{
 		search.setSearchCondition(request.getParameter("searchCondition"));
 		search.setSearchKeyword(request.getParameter("searchKeyword"));
 		search.setSearchOption(request.getParameter("searchOption"));
-		System.out.println("여긴 자바"+search.getSearchOption());
-		System.out.println("여긴 자바00"+search.getSearchCondition());
+		System.out.println("여긴 자바 옵션"+search.getSearchOption());
+		System.out.println("여긴 자바 컨디션"+search.getSearchCondition());
+		System.out.println("여긴 자바 키워드"+search.getSearchKeyword());
 		// web.xml  meta-data 로 부터 상수 추출 
 		int pageSize = Integer.parseInt( getServletContext().getInitParameter("pageSize"));
 		int pageUnit  =  Integer.parseInt(getServletContext().getInitParameter("pageUnit"));

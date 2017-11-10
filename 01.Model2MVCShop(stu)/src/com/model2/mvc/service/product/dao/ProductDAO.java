@@ -80,8 +80,9 @@ public class ProductDAO {
 		String sql = "select p.*, t.TRAN_STATUS_CODE from PRODUCT p, transaction t WHERE p.prod_no=t.prod_no(+) ";
 		
 		
-		System.out.println("여긴 다오"+search.getSearchOption());
-		System.out.println("여긴 다오"+search.getSearchCondition());
+		System.out.println("여긴 다오 옵션"+search.getSearchOption());
+		System.out.println("여긴 다오 컨디션"+search.getSearchCondition());
+		System.out.println("여긴 다오 키워드"+search.getSearchKeyword());
 		
 		if (search.getSearchCondition() != null) {
 			if (search.getSearchCondition().equals("0")) {

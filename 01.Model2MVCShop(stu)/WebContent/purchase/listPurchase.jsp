@@ -23,9 +23,6 @@ String searchKeyword = CommonUtil.null2str(searchVO.getSearchKeyword());
 //User user = (User)session.getAttribute("user");
 
 
-
-
-
 %>--%> 
 	
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -115,6 +112,7 @@ function fncGetList(currentPage) {
 			<c:if test = "${purchase.tranCode=='0  '}">
 				구매완료
 				<a href="/updatePurchaseView.do?tranNo=${purchase.tranNo}">배송정보수정</a>
+				<a href="/deletePurchase.do?tranNo=${purchase.tranNo}">환불하기</a>
 			</c:if>
 			<c:if test = "${purchase.tranCode=='1  '}">
 				배송중
@@ -125,10 +123,10 @@ function fncGetList(currentPage) {
 		<td></td>
 		<td align="left">
 		<c:if test = "${purchase.tranCode=='1  '}">
-			배송중 (정보수정불가)
+			배송중 (정보수정,환불불가)
 		</c:if>
 		<c:if test = "${purchase.tranCode=='2  '}">
-			배송완료 (정보수정불가)
+			배송완료 (정보수정,환불불가)
 		</c:if>
 		<c:if test = "${purchase.tranCode=='1  '}">
 		<a href="/updateTranCode.do?tranNo=${purchase.tranNo}&tranCode=${purchase.tranCode}">물건도착</a>		

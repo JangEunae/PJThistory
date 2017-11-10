@@ -230,7 +230,6 @@ public class PurchaseDAO {
 				+ "where TRAN_NO=?  ";
 		
 		PreparedStatement stmt = con.prepareStatement(sql);
-		System.out.println("여기인가"+purchase);
 		
 		String tranCode  = null;
 		if(purchase.getTranCode().equals("0  ")) {
@@ -250,7 +249,30 @@ public class PurchaseDAO {
 		
 	}
 	
-private int getTotalCount(String sql) throws Exception {
+	public void deleteTranCode(Purchase purchase) throws Exception {
+		
+		Connection con = DBUtil.getConnection();
+		
+		String sql = "delete TRANSACTION where TRAN_NO=?";
+		
+		PreparedStatement stmt = con.prepareStatement(sql);
+		
+		System.out.println(purchase.getTranCode());
+		
+		String tranCode  = null;
+		if(purchase.getTranCode().equals("0  ")) {
+			tranCode = null;
+		}
+		
+		stmt.setInt(1, purchase.getTranNo());
+		
+		stmt.executeUpdate();
+		
+		con.close();
+		
+	}
+	
+	private int getTotalCount(String sql) throws Exception {
 		
 		sql = "SELECT COUNT(*) "+
 		          "FROM ( " +sql+ ") countTable";

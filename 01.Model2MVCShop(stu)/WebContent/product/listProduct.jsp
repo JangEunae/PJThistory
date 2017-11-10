@@ -34,21 +34,11 @@ String searchKeyword = CommonUtil.null2str(searchVO.getSearchKeyword());
 
 <script type="text/javascript">
 
-function fncGetList(currentPage,searchOption) {
+function fncGetList(currentPage) {
 	document.getElementById("currentPage").value = currentPage;
-	document.getElementById("searchOption").value = searchOption;
    	document.detailForm.submit();		
 }
 
-<%--function fncHighPriceList(searchCondition) {
-	document.getElementById("searchOption01").value = searchCondition;
-   	document.detailForm.submit();		
-}
-
-function fncLowPriceList(searchCondition) {
-	document.getElementById("searchOption02").value = searchCondition;
-   	document.detailForm.submit();		
-}--%> 
 </script>
 </head>
 
@@ -163,10 +153,7 @@ function fncLowPriceList(searchCondition) {
 		<%
 		}
 		%>--%>
-		
-		
-		
-		
+			
 		<td align="right" width="70">
 			<table border="0" cellspacing="0" cellpadding="0">
 				<tr>
@@ -174,7 +161,7 @@ function fncLowPriceList(searchCondition) {
 						<img src="/images/ct_btnbg01.gif" width="17" height="23">
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						<a href="javascript:fncGetList('1','${search.searchOption}');">검색</a>
+						<a href="javascript:fncGetList('1');">검색</a>
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23">
@@ -192,23 +179,10 @@ function fncLowPriceList(searchCondition) {
 		전체 ${resultPage.totalCount} 건수, 현재 ${resultPage.currentPage}  페이지 		
 		</td>
 		<td colspan="8" align="right">
-		<!--<a href="/listProduct.do?searchCondition=3">높은 가격순▲ </a>
-		<a href="/listProduct.do?searchCondition=4">낮은 가격순▼ </a>-->
-		
-		<!--<input type="hidden" name="searchCondition" value="3">
-		<a href="javascript:fncGetList('1');">높은 가격순▲ </a>
-		<input type="hidden" name="searchCondition" value="4">
-		<a href="javascript:fncGetList('1');">낮은 가격순▼ </a>
-		
-		<input type="hidden" name="searchOption01"  id="searchOption01" value = "3">
-		<a href="javascript:fncHighPriceList('3');">높은 가격순▲ </a>
-		</input>
-		<input type="hidden" name="searchOption02"  id="searchOption02" value = "4">
-		<a href="javascript:fncLowPriceList('4');">낮은 가격순▼ </a>-->
-		
+
 		<input type="hidden" name="searchOption" id="searchOption" >
-		<a href="/listProduct.do?menu=${param.menu}&searchOption=0">높은 가격순▲ </a>
-		<a href="/listProduct.do?menu=${param.menu}&searchOption=1">낮은 가격순▼ </a>
+		<a href="/listProduct.do?menu=${param.menu}&searchOption=0&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}">높은 가격순▲ </a>
+		<a href="/listProduct.do?menu=${param.menu}&searchOption=1&searchCondition=${search.searchCondition}&searchKeyword=${search.searchKeyword}">낮은 가격순▼ </a>
 		</td>
 	</tr>
 	<tr>

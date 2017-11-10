@@ -45,7 +45,6 @@ public class ListPurchaseAction extends Action{
 		User userId = (User) session.getAttribute("user");
 		
 		String buyerId = userId.getUserId();
-		System.out.println(buyerId);
 		
 		
 		// Business logic ผ๖วเ
@@ -65,8 +64,6 @@ public class ListPurchaseAction extends Action{
 		
 		
 		return "forward:/purchase/listPurchase.jsp";
-	
-	
 	
 	
 	}

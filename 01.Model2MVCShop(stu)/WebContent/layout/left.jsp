@@ -132,6 +132,14 @@ function history(){
 				<a href="javascript:history()">최근 본 상품</a>
 			</td>
 		</tr>
+		<tr>
+		<td class="DepthEnd">&nbsp;</td>
+		</tr>
+		<tr>
+			<td class="Depth03">
+				<a href="basketPurchase.do" target="rightFrame">장바구니</a>
+			</td>
+		</tr>
 	</table>
 </td>
 </tr>
