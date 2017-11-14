@@ -25,6 +25,7 @@ public class AddUserAction extends Action {
 		user.setPhone(request.getParameter("phone"));
 		user.setEmail(request.getParameter("email"));
 		
+		
 		//System.out.println(user);
 		
 		UserService service=new UserServiceImpl();

@@ -29,12 +29,10 @@ public class PurchaseDAO {
 	
 	public void insertPurchase(Purchase purchase) throws Exception {
 		
-		
-		System.out.println("¿©±â´Â DAO");
-		System.out.println(purchase);
+	
 		Connection con = DBUtil.getConnection();
 		
-		String sql = "insert into TRANSACTION values (seq_transaction_tran_no.nextval,?,?,?,?,?,?,?,?,sysdate,?)";
+		String sql = "insert into TRANSACTION values (seq_transaction_tran_no.nextval,?,?,?,?,?,?,?,?,sysdate,?,?)";
 		
 		PreparedStatement stmt = con.prepareStatement(sql);
 		
@@ -47,6 +45,7 @@ public class PurchaseDAO {
 		stmt.setString(7, purchase.getDivyRequest());
 		stmt.setString(8, purchase.getTranCode());
 		stmt.setString(9, purchase.getDivyDate());
+		stmt.setString(10, null);
 		stmt.executeUpdate();
 		
 		con.close();		

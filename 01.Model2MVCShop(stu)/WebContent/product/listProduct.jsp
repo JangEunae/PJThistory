@@ -237,7 +237,7 @@ function fncGetList(currentPage) {
 				<td align="left"><a href="/getProduct.do?prodNo=${product.prodNo}">${product.prodName}</a></td>
 				</c:if>
 				<c:if test = "${product.proTranCode=='0  '||product.proTranCode=='1  '||product.proTranCode=='2  '}">
-				<td align="left">${product.prodName}</a></td>
+				<td align="left">${product.prodName}</td>
 				</c:if>
 				</c:if>
 			<td></td>

@@ -80,10 +80,6 @@ public class ProductDAO {
 		String sql = "select p.*, t.TRAN_STATUS_CODE from PRODUCT p, transaction t WHERE p.prod_no=t.prod_no(+) ";
 		
 		
-		System.out.println("여긴 다오 옵션"+search.getSearchOption());
-		System.out.println("여긴 다오 컨디션"+search.getSearchCondition());
-		System.out.println("여긴 다오 키워드"+search.getSearchKeyword());
-		
 		if (search.getSearchCondition() != null) {
 			if (search.getSearchCondition().equals("0")) {
 				sql += " ";
@@ -91,8 +87,14 @@ public class ProductDAO {
 				sql += " and p.PROD_NAME Like '%" + search.getSearchKeyword()+"%"
 						+ "'";
 			}else if (search.getSearchCondition().equals("2")) {
+				String arr[] = (search.getSearchKeyword()).split("~");
+				
+				if(arr.length<=1) {
+					sql += " and p.PRICE = "+arr[0];
+				}else {
 				String keyword = (search.getSearchKeyword()).replace("~", " and ");
 				sql += " and p.PRICE BETWEEN"+" "+keyword;
+				}
 			}
 		}
 		
@@ -131,7 +133,6 @@ public class ProductDAO {
 			product.setProTranCode(rs.getString("TRAN_STATUS_CODE"));
 			list.add(product);
 		}
-		//System.out.println("여기여기"+product);
 		//==> totalCount 정보 저장
 		map.put("totalCount", new Integer(totalCount));
 		//==> currentPage 의 게시물 정보 갖는 List 저장
