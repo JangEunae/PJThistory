@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ProductMapper">
+ 	
+ 	
+	<resultMap id="productSelectMap" type="product">
+		<result property="prodNo" 			column="prod_no" 			jdbcType="NUMERIC"/>
+		<result property="prodName"			column="prod_name" 			jdbcType="VARCHAR" />
+		<result property="prodDetail" 		column="prod_detail" 		jdbcType="VARCHAR" />
+		<result property="manuDate" 		column="manufacture_day" 	jdbcType="VARCHAR" />
+		<result property="price" 			column="price" 				jdbcType="NUMERIC" />
+		<result property="fileName" 		column="image_file" 		jdbcType="VARCHAR" />
+		<result property="regDate" 			column="reg_date" 			jdbcType="DATE" />
+		<result property="proTranCode" 									jdbcType="VARCHAR"  />
+	</resultMap>
+	
+	<!-- SQL : INSERT -->
+	<insert 	id="addProduct"		parameterType="product" >
+	 	insert into PRODUCT values (seq_product_prod_no.nextval,#{prodName},#{prodDetail:VARCHAR},
+	 								#{manuDate:VARCHAR},#{price:NUMERIC},#{fileName:VARCHAR},sysdate)
+	 </insert>
+	 
+	 <!-- SQL : SELECT ONE -->
+	 <select 	id="getProduct"	parameterType="string"	resultMap="productSelectMap">
+		select * from PRODUCT where PROD_NO= #{prodNo}
+	 </select>
+	 
+	 <!-- SQL : UPDATE -->
+	 <update	id="updateUser"	parameterType="user" >
+	   	UPDATE PRODUCT
+	   	<set>
+	   		PROD_NAME 		= #{prodName:VARCHAR} ,
+			PROD_DETAIL		= #{prodDetail:VARCHAR},
+			MANUFACTURE_DAY = #{manuDat:VARCHARe} ,
+			PRICE			=	#{price:NUMERIC},
+			IMAGE_FIL		=	#{fileName:VARCHAR}
+	   	</set>
+	   	WHERE PROD_NO = #{prodNo}
+	 </update>
+		 
+	<!-- SQL : SELECT LIST -->
+	<select  id="getProductList"  parameterType="search"	resultMap="productSelectMap">
+	  	SELECT *
+	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	select p.*, t.TRAN_STATUS_CODE from PRODUCT p, transaction t WHERE p.prod_no=t.prod_no(+)
+											<if test="search.searchCondition != null">
+													<if test="search.searchCondition == 0 and search.searchKeyword !='' ">
+										 				and p.PROD_NAME Like '%${search.searchKeyword}%'
+													</if>
+													<if test="search.searchCondition == 1 and search.searchKeyword !='' ">
+										 				user_name = #{searchKeyword}
+													</if>
+											</if>
+											<if test="search.getSearchOption != null">
+												<if test="search.getSearchOption == 0">
+												order by p.PRICE DESC
+												</if>
+												<if test="search.getSearchOption == 1">
+												order by p.PRICE ASC
+												</if>
+											</if>
+											ORDER BY user_id ) inner_table
+						WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+	 </select>
+	 	<!--  위 두번째 subQuery 의  
+	 			WHERE ROWNUM &lt;= #{endRowNum} ) 는
+	 			WHERE ROWNUM <= #{endRowNum} ) 의미이며..
+	 			< 는 keyword 로 &lt; 를	사용.
+	 			
+	 			<![CDATA[  ~~~  ]]> 를 이용하여 아래와 같이 사용  할 수 있다.
+	 			CDATA ==> Character Data 의 의미 Java 에서 \n 같은 특수문자 처리  
+
+				WHERE ROWNUM <![CDATA[ <=]]> #{endRowNum} )
+		-->
+	
+	<!-- SQL : SELECT ROW Count -->	 
+	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM(select p.*, t.TRAN_STATUS_CODE from PRODUCT p, transaction t WHERE p.prod_no=t.prod_no(+)
+											<if test="search.searchCondition != null">
+													<if test="search.searchCondition == 0 and search.searchKeyword !='' ">
+										 				and p.PROD_NAME Like '%${search.searchKeyword}%'
+													</if>
+													<if test="search.searchCondition == 1 and search.searchKeyword !='' ">
+										 				user_name = #{searchKeyword}
+													</if>
+											</if>
+											<if test="search.getSearchOption != null">
+												<if test="search.getSearchOption == 0">
+												order by p.PRICE DESC
+												</if>
+												<if test="search.getSearchOption == 1">
+												order by p.PRICE ASC
+												</if>
+											</if>
+											) countTable						
+	 </select>
+	 
+</mapper>
