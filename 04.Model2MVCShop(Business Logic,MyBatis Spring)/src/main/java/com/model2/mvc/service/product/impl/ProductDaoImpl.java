@@ -1,5 +1,6 @@
 package com.model2.mvc.service.product.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,7 +14,7 @@ import com.model2.mvc.service.domain.Product;
 import com.model2.mvc.service.domain.User;
 import com.model2.mvc.service.product.ProductDAO;
 
-@Repository("prouctDaoImpl")
+@Repository("productDaoImpl")
 public class ProductDaoImpl implements ProductDAO{
 
 	
@@ -41,8 +42,31 @@ public class ProductDaoImpl implements ProductDAO{
 
 	@Override
 	public List<Product> getProductList(Search search) throws Exception {
-		// TODO Auto-generated method stub
-		return sqlSession.selectList("ProductMapper.getProductList", search);
+		
+		String arr[] = {};
+		String singlePrice = null;
+		String doublePrice = null;
+		int length = 0;
+		if (search.getSearchCondition() != null) {
+			if (search.getSearchCondition().equals("2")) {
+				arr = (search.getSearchKeyword()).split("~");
+				length = arr.length;
+				if(length >= 2) {
+					singlePrice = arr[0];
+					doublePrice = arr[1];
+				}else {
+					singlePrice = arr[0];
+				}	
+			}
+		}
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("search", search );
+		map.put("length", length );
+		map.put("singlePrice", singlePrice);
+		map.put("doublePrice", doublePrice);
+		
+		
+		return sqlSession.selectList("ProductMapper.getProductList", map);
 	}
 
 	@Override
@@ -52,7 +76,31 @@ public class ProductDaoImpl implements ProductDAO{
 
 	@Override
 	public int getTotalCount(Search search) throws Exception {
-		return sqlSession.selectOne("ProductMapper.getTotalCount", search);
+		
+		String arr[] = {};
+		String singlePrice = null;
+		String doublePrice = null;
+		int length = 0;
+		if (search.getSearchCondition() != null) {
+			if (search.getSearchCondition().equals("2")) {
+				arr = (search.getSearchKeyword()).split("~");
+				length = arr.length;
+				if(length >= 2) {
+					singlePrice = arr[0];
+					doublePrice = arr[1];
+				}else {
+					singlePrice = arr[0];
+				}	
+			}
+		}
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("search", search );
+		map.put("length", length );
+		map.put("singlePrice", singlePrice);
+		map.put("doublePrice", doublePrice);
+		
+		
+		return sqlSession.selectOne("ProductMapper.getTotalCount", map);
 	}
 
 

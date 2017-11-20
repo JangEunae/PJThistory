@@ -20,7 +20,7 @@
 	
 	<!-- SQL : INSERT -->
 	<insert 	id="addProduct"		parameterType="product" >
-	 	insert into PRODUCT values (seq_product_prod_no.nextval,#{prodName},#{prodDetail:VARCHAR},
+	 	insert into PRODUCT values (seq_product_prod_no.nextval,#{prodName:VARCHAR},#{prodDetail:VARCHAR},
 	 								#{manuDate:VARCHAR},#{price:NUMERIC},#{fileName:VARCHAR},sysdate)
 	 </insert>
 	 
@@ -30,42 +30,53 @@
 	 </select>
 	 
 	 <!-- SQL : UPDATE -->
-	 <update	id="updateUser"	parameterType="user" >
+	 <update	id="updateProduct"	parameterType="user" >
 	   	UPDATE PRODUCT
 	   	<set>
 	   		PROD_NAME 		= #{prodName:VARCHAR} ,
 			PROD_DETAIL		= #{prodDetail:VARCHAR},
-			MANUFACTURE_DAY = #{manuDat:VARCHARe} ,
+			MANUFACTURE_DAY = #{manuDate:VARCHAR} ,
 			PRICE			=	#{price:NUMERIC},
-			IMAGE_FIL		=	#{fileName:VARCHAR}
+			IMAGE_FILE		=	#{fileName:VARCHAR}
 	   	</set>
 	   	WHERE PROD_NO = #{prodNo}
 	 </update>
 		 
 	<!-- SQL : SELECT LIST -->
-	<select  id="getProductList"  parameterType="search"	resultMap="productSelectMap">
+	<select  id="getProductList"  parameterType="map"	resultMap="productSelectMap">
 	  	SELECT *
 	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
 	  					FROM		(	select p.*, t.TRAN_STATUS_CODE from PRODUCT p, transaction t WHERE p.prod_no=t.prod_no(+)
 											<if test="search.searchCondition != null">
 													<if test="search.searchCondition == 0 and search.searchKeyword !='' ">
-										 				and p.PROD_NAME Like '%${search.searchKeyword}%'
+										 				
 													</if>
 													<if test="search.searchCondition == 1 and search.searchKeyword !='' ">
-										 				user_name = #{searchKeyword}
+										 				and p.PROD_NAME Like '%${search.searchKeyword}%'
+													</if>
+													<if test="search.searchCondition == 2 and search.searchKeyword !='' ">
+										 				<if test=" length == 1">
+										 					and p.PRICE = #{singlePrice}
+										 				</if>
+										 				<if test="length == 2">
+										 					and p.PRICE BETWEEN #{singlePrice} and #{doublePrice}
+										 				</if>
 													</if>
 											</if>
-											<if test="search.getSearchOption != null">
-												<if test="search.getSearchOption == 0">
+											<if test="search.searchOption != null">
+												<if test="search.searchOption == 0">
 												order by p.PRICE DESC
 												</if>
-												<if test="search.getSearchOption == 1">
+												<if test="search.searchOption == 1">
 												order by p.PRICE ASC
 												</if>
 											</if>
-											ORDER BY user_id ) inner_table
-						WHERE ROWNUM &lt;= #{endRowNum} )
-		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+											<if test="search.searchOption == null ">
+											ORDER BY p.prod_no
+											</if>
+											 ) inner_table WHERE ROWNUM <![CDATA[<=]]> #{search.currentPage}*#{search.pageSize} )
+  		WHERE row_seq BETWEEN (#{search.currentPage}-1)*#{search.pageSize}+1
+  		AND #{search.currentPage}*#{search.pageSize}
 	 </select>
 	 	<!--  위 두번째 subQuery 의  
 	 			WHERE ROWNUM &lt;= #{endRowNum} ) 는
@@ -79,24 +90,35 @@
 		-->
 	
 	<!-- SQL : SELECT ROW Count -->	 
-	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
+	 <select  id="getTotalCount"  parameterType="map"	 resultType="int">
 	  	SELECT COUNT(*)
-	  	FROM(select p.*, t.TRAN_STATUS_CODE from PRODUCT p, transaction t WHERE p.prod_no=t.prod_no(+)
+	  			FROM(		select p.*, t.TRAN_STATUS_CODE from PRODUCT p, transaction t WHERE p.prod_no=t.prod_no(+)
 											<if test="search.searchCondition != null">
 													<if test="search.searchCondition == 0 and search.searchKeyword !='' ">
-										 				and p.PROD_NAME Like '%${search.searchKeyword}%'
+										 				
 													</if>
 													<if test="search.searchCondition == 1 and search.searchKeyword !='' ">
-										 				user_name = #{searchKeyword}
+										 				and p.PROD_NAME Like '%${search.searchKeyword}%'
+													</if>
+													<if test="search.searchCondition == 2 and search.searchKeyword !='' ">
+										 				<if test=" length == 1">
+										 					and p.PRICE = #{singlePrice}
+										 				</if>
+										 				<if test="length == 2">
+										 					and p.PRICE BETWEEN #{singlePrice} and #{doublePrice}
+										 				</if>
 													</if>
 											</if>
-											<if test="search.getSearchOption != null">
-												<if test="search.getSearchOption == 0">
+											<if test="search.searchOption != null">
+												<if test="search.searchOption == 0">
 												order by p.PRICE DESC
 												</if>
-												<if test="search.getSearchOption == 1">
+												<if test="search.searchOption == 1">
 												order by p.PRICE ASC
 												</if>
+											</if>
+											<if test="search.searchOption == null ">
+											ORDER BY p.prod_no
 											</if>
 											) countTable						
 	 </select>
